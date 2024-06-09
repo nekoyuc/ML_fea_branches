@@ -328,15 +328,15 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         if random.random() < 0.1:
-            save_tensor_image(inp[0], "inp.png")
-            save_tensor_image(out[0], "out.png")
-            save_tensor_image(out1[0], "out1.png")
-            save_tensor_image(out2[0], "out2.png")
+            save_tensor_image(inp[0], f"{save_path}/inp_{i}.png")
+            save_tensor_image(out[0], f"{save_path}/out_{i}.png")
+            save_tensor_image(out1[0], f"{save_path}/out1_{i}.png")
+            save_tensor_image(out2[0], f"{save_path}/out2_{i}.png")
             decoded_predicted_latents = model2.from_latent(predicted_latent_2)
-            save_tensor_image(decoded_predicted_latents[0], "decoded_predicted_latents.png")
+            save_tensor_image(decoded_predicted_latents[0], f"{save_path}/decoded_predicted_latents_{i}.png")
             print(f"Epoch {epoch}, Loss1: {loss1.item()}, Loss2: {loss2.item()}")
             print(f"Latent loss: {latent_loss.item()}, Cosine similarity: {cosine_similarity.mean().item()}")
-    model1.save("model1.pth")
-    model2.save("model2.pth")
-    latent_translator.save("latent_translator.pth")
+    model1.save(f"{save_path}/model1.pth")
+    model2.save(f"{save_path}/model2.pth")
+    latent_translator.save(f"{save_path}/latent_translator.pth")
 
