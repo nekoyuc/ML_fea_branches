@@ -276,7 +276,7 @@ class ConvAutoencoder(nn.Module):
         x = self.from_latent(latent)
         return x, latent
 
-colors = load_color_bar("color_bar.png")
+colors = load_color_bar("duel_autoencoders/color_bar.png")
 
 model1 = ConvAutoencoder(5).to(device)
 model2 = ConvAutoencoder(5).to(device)
