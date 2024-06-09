@@ -282,10 +282,16 @@ model1 = ConvAutoencoder(5).to(device)
 model2 = ConvAutoencoder(5).to(device)
 latent_translator = LatentTranslator().to(device)
 
+### INPUT: ARG 1 ###
+### path to dataset, includes INP and OUT images ###
 dataset = sys.argv[1]
 dataset = PairedImageDataset(dataset, colors)
 #dataloader = torch.utils.data.DataLoader(dataset, batch_size=128, shuffle=True, num_workers=4)
 print(len(dataset))
+
+### OUTPUT: ARG 2 ###
+### path to save images and models ###
+save_path = sys.argv[2]
 
 optimizer = torch.optim.AdamW(list(model1.parameters()) + list(model2.parameters()) + list(latent_translator.parameters()), lr=1e-3)
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True, num_workers=NUM_DATASET_WORKERS, pin_memory=True)
