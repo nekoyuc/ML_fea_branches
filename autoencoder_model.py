@@ -8,7 +8,7 @@ class ConvAutoencoder(nn.Module):
 
         # Encoder
         self.encoder = nn.Sequential(
-            nn.Conv2d(3, 8, 3, stride=2, padding=1),  # 1st conv layer, input channels = 3 (for RGB images)
+            nn.Conv2d(1, 8, 3, stride=2, padding=1),  # 1st conv layer, input channels = 3 (for RGB images)
             nn.ReLU(),
             nn.Conv2d(8, 16, 3, stride=2, padding=1), # 2nd conv layer
             nn.ReLU(),
@@ -31,14 +31,15 @@ class ConvAutoencoder(nn.Module):
             nn.ReLU(),
             nn.ConvTranspose2d(16, 8, 3, stride=2, padding=1, output_padding=1),
             nn.ReLU(),
-            nn.ConvTranspose2d(8, 3, 3, stride=2, padding=1, output_padding=1),
+            nn.ConvTranspose2d(8, 1, 3, stride=2, padding=1, output_padding=1),
             nn.Sigmoid()  # Output layer, sigmoid for pixel values between 0 and 1
         )
 
     def forward(self, x):
         encoded = self.encoder(x)
 
-        encoded = encoded + torch.randn_like(encoded) * 0.01
+        if self.training:
+            encoded = encoded + torch.randn_like(encoded) * 0.01
 
         if self.print_shape:
             print("Encoded shape: ", encoded.shape)

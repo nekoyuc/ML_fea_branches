@@ -46,4 +46,7 @@ class PairedImageDataset(Dataset):
         #out_img = out_image - out_img.min()
         #out_img = out_img / out_img.max()
 
+        out_image = out_image*2.0 -1.0
+        inp_image = inp_image*2.0 -1.0
+
         return inp_image.to(self.device), out_image.to(self.device)
