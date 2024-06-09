@@ -293,12 +293,15 @@ print(len(dataset))
 ### path to save images and models ###
 save_path = sys.argv[2]
 
+### PARAMS ###
+### episodes, start_lr, end_lr ###
+num_epochs = 1000
+
 optimizer = torch.optim.AdamW(list(model1.parameters()) + list(model2.parameters()) + list(latent_translator.parameters()), lr=1e-3)
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True, num_workers=NUM_DATASET_WORKERS, pin_memory=True)
 model1.train()
 model2.train()
 latent_translator.train()
-num_epochs = 1000
 i = 0
 for epoch in range(num_epochs):
     for data in dataloader:
@@ -330,10 +333,17 @@ for epoch in range(num_epochs):
         if random.random() < 0.1:
             save_tensor_image(inp[0], f"{save_path}/{i}_inp.png")
             save_tensor_image(out[0], f"{save_path}/{i}_out.png")
+
+            # output of encoder model1 which is trained on inp images
             save_tensor_image(out1[0], f"{save_path}/{i}_out1.png")
+            
+            # output of encoder model2 which is trained on out images
             save_tensor_image(out2[0], f"{save_path}/{i}_out2.png")
             decoded_predicted_latents = model2.from_latent(predicted_latent_2)
+
+            # predicted output of translated latent from model1 to model2
             save_tensor_image(decoded_predicted_latents[0], f"{save_path}/{i}_decoded_predicted_latents.png")
+            
             print(f"Epoch {epoch}, Loss1: {loss1.item()}, Loss2: {loss2.item()}")
             print(f"Latent loss: {latent_loss.item()}, Cosine similarity: {cosine_similarity.mean().item()}")
     model1.save(f"{save_path}/model1.pth")
