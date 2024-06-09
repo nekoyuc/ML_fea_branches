@@ -346,6 +346,12 @@ for epoch in range(num_epochs):
             
             print(f"Epoch {epoch}, Loss1: {loss1.item()}, Loss2: {loss2.item()}")
             print(f"Latent loss: {latent_loss.item()}, Cosine similarity: {cosine_similarity.mean().item()}")
+    
+    torch.save(model1.state_dict(), f"{save_path}/model1.pth")
+    torch.save(model2.state_dict(), f"{save_path}/model2.pth")
+    torch.save(latent_translator.state_dict(), f"{save_path}/latent_translator.pth")
+    '''
     model1.save(f"{save_path}/model1.pth")
     model2.save(f"{save_path}/model2.pth")
     latent_translator.save(f"{save_path}/latent_translator.pth")
+    '''
